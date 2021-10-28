@@ -1,0 +1,59 @@
+version: "2.4"
+services:
+  frontend:
+    image: shinjs0505/node-community-frontend
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    stdin_open: true
+    mem_limit: 256m
+    environment:
+      REACT_APP_TRACKING_ID: $REACT_APP_TRACKING_ID
+  nginx:
+    restart: always
+    image: shinjs0505/node-community-nginx
+    ports:
+      - "80:80"
+    mem_limit: 256m
+    links:
+      - frontend
+      - backend
+  backend:
+    image: shinjs0505/node-community-backend
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    environment:
+      MONGO_URI: $MONGO_URI
+      AWS_ACCESS_KEY: $AWS_ACCESS_KEY
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_S3_BUCKET: $AWS_S3_BUCKET
+      AWS_S3_REGION: $AWS_S3_REGION
+    mem_limit: 1g
+# version: "3"
+# services:
+#   frontend:
+#     build:
+#       dockerfile: Dockerfile
+#       context: ./client
+#     volumes:
+#       - /app/node_modules
+#       - ./client:/app
+#     stdin_open: true
+#   nginx:
+#     restart: always
+#     build:
+#       dockerfile: Dockerfile
+#       context: ./nginx
+#     ports:
+#       - "3000:80"
+#   backend:
+#     build:
+#       dockerfile: Dockerfile
+#       context: ./server
+#     container_name: app_backend
+#     volumes:
+#       - /app/node_modules
+#       - ./server:/app
+#     environment:
+#       MONGO_URI: $MONGO_URI

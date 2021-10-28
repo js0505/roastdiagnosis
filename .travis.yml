@@ -1,0 +1,39 @@
+language: generic
+
+sudo: required
+
+services:
+  - docker
+
+# # 테스트 하기위한 부분. 나중에 백엔드도 필요하면 추가 빌드해서 테스트 진행.
+# before_install:
+#   - docker build -t shinjs0505/node-community -f ./client/Dockerfile.dev ./client
+# # 테스트 진행 스크립트
+# script:
+#   - docker run -e CI=true shinjs0505/node-community npm run test
+
+# 위 테스트가 성공한 뒤의 진행
+# after_success:
+script:
+  - docker build -t shinjs0505/node-community-frontend ./client
+  - docker build -t shinjs0505/node-community-backend ./server
+  - docker build -t shinjs0505/node-community-nginx ./nginx
+
+# 도커허브 로그인
+  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
+
+  - docker push shinjs0505/node-community-frontend
+  - docker push shinjs0505/node-community-backend
+  - docker push shinjs0505/node-community-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "node-community"
+  env: "Nodecommunity-env"
+  bucket_name: elasticbeanstalk-us-east-2-229674681585
+  bucket_path: "node-community"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
