@@ -15,24 +15,24 @@ services:
 # 위 테스트가 성공한 뒤의 진행
 # after_success:
 script:
-  - docker build -t shinjs0505/node-community-frontend ./client
-  - docker build -t shinjs0505/node-community-backend ./server
-  - docker build -t shinjs0505/node-community-nginx ./nginx
+  - docker build -t shinjs0505/roastdiagnosis-frontend ./client
+  - docker build -t shinjs0505/roastdiagnosis-backend ./server
+  - docker build -t shinjs0505/roastdiagnosis-nginx ./nginx
 
 # 도커허브 로그인
   - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
 
-  - docker push shinjs0505/node-community-frontend
-  - docker push shinjs0505/node-community-backend
-  - docker push shinjs0505/node-community-nginx
+  - docker push shinjs0505/roastdiagnosis-frontend
+  - docker push shinjs0505/roastdiagnosis-backend
+  - docker push shinjs0505/roastdiagnosis-nginx
 
 deploy:
   provider: elasticbeanstalk
-  region: "us-east-2"
-  app: "node-community"
-  env: "Nodecommunity-env"
-  bucket_name: elasticbeanstalk-us-east-2-229674681585
-  bucket_path: "node-community"
+  region: "ap-northeast-2"
+  app: "roastdiagnosis"
+  env: "Roastdiagnosis-env"
+  bucket_name: elasticbeanstalk-ap-northeast-2-229674681585
+  bucket_path: "roastdiagnosis"
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY

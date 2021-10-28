@@ -1,7 +1,7 @@
 version: "2.4"
 services:
   frontend:
-    image: shinjs0505/node-community-frontend
+    image: shinjs0505/roastdiagnosis-frontend
     volumes:
       - /app/node_modules
       - ./client:/app
@@ -11,7 +11,7 @@ services:
       REACT_APP_TRACKING_ID: $REACT_APP_TRACKING_ID
   nginx:
     restart: always
-    image: shinjs0505/node-community-nginx
+    image: shinjs0505/roastdiagnosis-nginx
     ports:
       - "80:80"
     mem_limit: 256m
@@ -19,7 +19,7 @@ services:
       - frontend
       - backend
   backend:
-    image: shinjs0505/node-community-backend
+    image: shinjs0505/roastdiagnosis-backend
     volumes:
       - /app/node_modules
       - ./server:/app

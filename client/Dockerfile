@@ -1,4 +1,4 @@
-FROM node as builder
+FROM node:14.18-slim as builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY ./ ./
 RUN npm run build
 
 
-FROM nginx
+FROM nginx:1.21.3-alpine
 
 EXPOSE 3000
 
