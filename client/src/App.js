@@ -22,6 +22,7 @@ import UserRoleEdit from "./components/views/AdminPage/Sections/UserRoleEdit"
 import config from "./config/key"
 
 const App = () => {
+	console.log("Welcome")
 	const history = createBrowserHistory()
 	const TRACKING_ID = config.REACT_APP_TRACKING_ID
 
