@@ -5,8 +5,6 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
-    environment:
-      REACT_APP_TRACKING_ID: $REACT_APP_TRACKING_ID
     stdin_open: true
     mem_limit: 256m
   nginx:
