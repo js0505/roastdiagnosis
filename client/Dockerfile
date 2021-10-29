@@ -8,8 +8,6 @@ RUN npm install --save --legacy-peer-deps
 
 COPY ./ ./
 
-ENV NODE_ENV=production
-
 RUN npm run build
 
 
