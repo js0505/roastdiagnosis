@@ -1,12 +1,13 @@
 const express = require("express")
 const router = express.Router()
-const { auth, admin } = require("../middleware/auth")
+const { auth } = require("../middleware/auth")
 const {
 	registerUser,
 	loginUser,
 	authInfo,
 	logoutUser,
 	updateUserInfo,
+	emailCheck,
 } = require("../controllers/userController")
 
 /////////////////////////////
@@ -16,7 +17,7 @@ router.route("/").post(registerUser).put(auth, updateUserInfo)
 
 router.route("/login").post(loginUser)
 
-router.route("/auth").get(auth, authInfo)
+router.route("/auth").get(auth, authInfo).post(emailCheck)
 
 router.route("/logout").get(auth, logoutUser)
 

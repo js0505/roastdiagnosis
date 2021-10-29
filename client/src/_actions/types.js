@@ -3,6 +3,7 @@ export const LOGOUT_USER = "LOGOUT_USER"
 export const REGISTER_USER = "REGISTER_USER"
 export const AUTH_USER = "AUTH_USER"
 export const UPDATE_USER_INFO = "UPDATE_USER_INFO"
+export const GET_EMAIL_NUMBER = "GET_EMAIL_NUMBER"
 
 export const GET_ALL_BOARD = "GET_ALL_BOARD"
 export const GET_DETAIL_BOARD = "GET_DETAIL_BOARD"

@@ -5,6 +5,7 @@ import {
 	AUTH_USER,
 	LOGOUT_USER,
 	UPDATE_USER_INFO,
+	GET_EMAIL_NUMBER,
 } from "./types"
 
 let userAPI = ""
@@ -52,6 +53,21 @@ export function updateUser(body) {
 		.then((res) => res.data)
 	return {
 		type: UPDATE_USER_INFO,
+		payload: request,
+	}
+}
+
+export function emailNumber(email) {
+	const body = {
+		email,
+	}
+
+	const request = axios
+		.post(`${userAPI}/auth`, body)
+		.then((res) => res.data)
+		.catch((e) => console.log(e))
+	return {
+		type: GET_EMAIL_NUMBER,
 		payload: request,
 	}
 }

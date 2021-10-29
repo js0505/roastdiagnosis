@@ -4,6 +4,7 @@ import {
 	AUTH_USER,
 	LOGOUT_USER,
 	UPDATE_USER_INFO,
+	GET_EMAIL_NUMBER,
 } from "../_actions/types"
 
 export default function (state = {}, action) {
@@ -18,6 +19,8 @@ export default function (state = {}, action) {
 			return { ...state, success: action.payload }
 		case UPDATE_USER_INFO:
 			return { ...state, userData: action.payload }
+		case GET_EMAIL_NUMBER:
+			return { ...state, success: action.payload }
 		default:
 			return state
 	}

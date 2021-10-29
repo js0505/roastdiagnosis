@@ -3,7 +3,7 @@ import { Button, Form, Input, PageHeader, message, Row, Col } from "antd"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { registerUser } from "../../../_actions/user_action"
+import { registerUser, emailNumber } from "../../../_actions/user_action"
 
 const Container = styled.div`
 	display: flex;
@@ -37,6 +37,10 @@ const RegisterPage = () => {
 	const [company, setCompany] = useState("")
 	const [password, setPassword] = useState("")
 	const [confirmPassword, setConfirmPassword] = useState("")
+	const [getEmailNumber, setGetEmailNumber] = useState("")
+	const [inputEmailNumber, setInputEmailNumber] = useState("")
+	const [emailNumberFormView, setEmailNumberFormView] = useState(true)
+	const [isEmailAuth, setIsEmailAuth] = useState(false)
 
 	const onSubmitHandler = () => {
 		if (password !== confirmPassword) {
@@ -59,6 +63,30 @@ const RegisterPage = () => {
 					history.push("/login")
 				}
 			})
+		}
+	}
+
+	const onMailHandler = () => {
+		if (email === "") {
+			return message.error("이메일을 입력 해주세요.")
+		}
+
+		message.info("입력하신 이메일로 인증번호가 전송 되었습니다.")
+
+		dispatch(emailNumber(email)).then((res) => {
+			setEmailNumberFormView(false)
+			setGetEmailNumber(res.payload.authNumber)
+		})
+	}
+
+	const onCheckNumberHandler = () => {
+		if (getEmailNumber !== parseInt(inputEmailNumber)) {
+			message.error("인증번호가 일치하지 않습니다.")
+			return
+		} else {
+			message.success("인증이 완료 되었습니다.")
+			setIsEmailAuth(true)
+			setEmailNumberFormView(true)
 		}
 	}
 
@@ -101,6 +129,7 @@ const RegisterPage = () => {
 								placeholder="이메일"
 							/>
 						</Form.Item>
+
 						<Form.Item
 							name="company"
 							rules={[
@@ -157,8 +186,33 @@ const RegisterPage = () => {
 								placeholder="비밀번호 확인"
 							/>
 						</Form.Item>
+						<Form.Item hidden={!emailNumberFormView}>
+							<SButton onClick={onMailHandler}>이메일 인증</SButton>
+						</Form.Item>
+						<Form.Item
+							hidden={emailNumberFormView}
+							name="getEmailNumber"
+							rules={[
+								{
+									required: true,
+									message: "인증번호를 입력 해주세요.",
+								},
+							]}
+						>
+							<SInput
+								value={inputEmailNumber}
+								onChange={(e) => setInputEmailNumber(e.target.value)}
+								type="text"
+								placeholder="인증번호"
+							/>
+						</Form.Item>
+						<Form.Item hidden={emailNumberFormView}>
+							<SButton onClick={onCheckNumberHandler}>인증번호 확인</SButton>
+						</Form.Item>
 						<br />
-						<SButton htmlType="submit">회원가입</SButton>
+						<SButton disabled={!isEmailAuth} htmlType="submit">
+							회원가입
+						</SButton>
 					</SForm>
 				</Container>
 			</Col>

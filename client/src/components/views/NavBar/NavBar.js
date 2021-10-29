@@ -74,7 +74,7 @@ const NavBar = () => {
 					</Menu.Item>
 
 					{user.userData && !user.userData.isAuth ? (
-						<Menu.Item>
+						<Menu.Item key="login">
 							<a href="/login">Login</a>
 						</Menu.Item>
 					) : (
@@ -85,19 +85,21 @@ const NavBar = () => {
 								icon={<UserOutlined />}
 							>
 								{user.userData && user.userData.isAdmin && (
-									<Menu.Item>
+									<Menu.Item key="admin">
 										<a href="/admin">관리자 페이지</a>
 									</Menu.Item>
 								)}
-								<Menu.Item>
+								<Menu.Item key="userinfo">
 									<a href={user.userData && `/userinfo`}>내 프로필</a>
 								</Menu.Item>
-								<Menu.Item>
+								<Menu.Item key="scrap">
 									<a href={user.userData && `/scrap/${user.userData._id}`}>
 										스크랩
 									</a>
 								</Menu.Item>
-								<Menu.Item onClick={onLogoutHandler}>로그아웃</Menu.Item>
+								<Menu.Item key="logout" onClick={onLogoutHandler}>
+									로그아웃
+								</Menu.Item>
 							</SubMenu>
 						</>
 					)}

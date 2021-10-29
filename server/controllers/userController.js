@@ -1,4 +1,6 @@
 const { User } = require("../models/User")
+const nodemailer = require("nodemailer")
+const config = require("../config/key")
 
 /////////////////////////////
 // '/'
@@ -85,6 +87,45 @@ const authInfo = (req, res) => {
 	})
 }
 
+const emailCheck = (req, res) => {
+	let userMail = req.body.email
+	if (userMail === "") return res.json({ success: false, err })
+
+	let authNumber = Math.floor(Math.random() * 1000000) + 100000
+	if (authNumber > 1000000) {
+		authNumber = authNumber - 100000
+	}
+
+	let transporter = nodemailer.createTransport({
+		service: "gmail",
+		prot: 587,
+		host: "smtp.gmlail.com",
+		secure: false,
+		requireTLS: true,
+		auth: {
+			user: config.GMAIL_ID,
+			pass: config.GMAIL_PASSWORD,
+		},
+	})
+	let message = {
+		from: "roastdiagnosis0@gmail.com",
+		to: userMail,
+		subject: "roastdiagnosis 이메일 인증번호 입니다",
+		html: `
+			<div style='text-align: center; width: 50%; height: 60%; margin: 15%; padding: 20px; box-shadow: 1px 1px 3px 0px #999;'>
+				<h2>Roastdiagnosis 인증번호</h2>
+				<h3>${authNumber}</h3>
+			</div>`,
+	}
+	transporter.sendMail(message, (err) => {
+		if (err) return res.json({ success: false, err })
+		return res.status(200).send({
+			success: true,
+			authNumber,
+		})
+	})
+}
+
 /////////////////////////////
 // '/logout'
 /////////////////////////////
@@ -104,4 +145,5 @@ module.exports = {
 	authInfo,
 	logoutUser,
 	updateUserInfo,
+	emailCheck,
 }

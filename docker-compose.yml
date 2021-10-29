@@ -5,10 +5,10 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
-    stdin_open: true
-    mem_limit: 256m
     environment:
       REACT_APP_TRACKING_ID: $REACT_APP_TRACKING_ID
+    stdin_open: true
+    mem_limit: 256m
   nginx:
     restart: always
     image: shinjs0505/roastdiagnosis-nginx
@@ -29,6 +29,8 @@ services:
       AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
       AWS_S3_BUCKET: $AWS_S3_BUCKET
       AWS_S3_REGION: $AWS_S3_REGION
+      GMAIL_ID: $GMAIL_ID
+	    GMAIL_PASSWORD: $GMAIL_PASSWORD
     mem_limit: 1g
 # version: "3"
 # services:
