@@ -77,30 +77,20 @@ const SingleComment = ({
 		})
 	}
 	const actions = [
-		<>
-			{!isResponse && (
-				<span
-					onClick={() => setShowReply(!showReply)}
-					key="comment-basic-reply-to"
-				>
-					답글 달기
-				</span>
-			)}
-			{writerId === user._id && (
-				<>
-					<span onClick={() => setShowEdit(!showEdit)}>수정</span>
-					<span>
-						<Popconfirm
-							title="댓글을 삭제 하시겠습니까?"
-							onConfirm={onDeleteComment}
-						>
-							삭제
-						</Popconfirm>
-					</span>
-				</>
-			)}
-		</>,
+		<span onClick={() => setShowReply(!showReply)} key="comment-basic-reply-to">
+			{!isResponse ? "답글 달기" : ""}
+		</span>,
+
+		<span onClick={() => setShowEdit(!showEdit)}>
+			{writerId === user._id ? "수정" : ""}
+		</span>,
+		<span>
+			<Popconfirm title="댓글을 삭제 하시겠습니까?" onConfirm={onDeleteComment}>
+				{writerId === user._id ? "삭제" : ""}
+			</Popconfirm>
+		</span>,
 	]
+
 	return (
 		<>
 			{!showEdit && (

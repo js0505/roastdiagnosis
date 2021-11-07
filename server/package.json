@@ -1,11 +1,11 @@
 {
-  "name": "node-commu-backend",
+  "name": "roastdiagnosis-backend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "backend": "nodemon server.js",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"npm run backend\" \"npm run start --prefix ../client\""
   },

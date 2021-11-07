@@ -29,6 +29,7 @@ services:
       AWS_S3_REGION: $AWS_S3_REGION
       GMAIL_ID: $GMAIL_ID
       GMAIL_PASSWORD: $GMAIL_PASSWORD
+      TOKEN: $TOKEN
     mem_limit: 1g
 # version: "3"
 # services:

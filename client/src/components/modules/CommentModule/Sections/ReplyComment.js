@@ -54,7 +54,7 @@ const ReplyComment = ({
 									comment={comment}
 									responseTo={comment._id}
 									isResponse={true}
-									writerId={writerId}
+									writerId={comment.writer._id}
 									refreshCommentFunction={refreshCommentFunction}
 								/>
 								{/* 페이지에 달린 댓글 밑에 대댓글 */}

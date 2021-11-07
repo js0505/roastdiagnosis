@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 //10자리 salt 생성
 const saltRounds = 10
 const jwt = require("jsonwebtoken")
+const config = require("../config/key")
 
 //스키마 생성
 const userSchema = mongoose.Schema({
@@ -59,7 +60,6 @@ userSchema.pre("save", function (next) {
 	}
 })
 
-
 // 입력받은 비밀번호와 기존 비밀번호를 비교하는 메소드
 userSchema.methods.comparePassword = function (plainPassword, callback) {
 	// plainPassword = 12345, 암호화된 비밀번호 = 0fj29jf0e029f9
@@ -75,7 +75,7 @@ userSchema.methods.generateToken = function (callback) {
 
 	// jsonwebtoken을 이용해서 token 생성
 	// 두번째 인자값을 넣어서 토큰과 비교하면 id가 다시 나타난다. 기억 해야함.
-	let token = jwt.sign(user._id.toHexString(), "secretToken")
+	let token = jwt.sign(user._id.toHexString(), config.TOKEN)
 
 	//토큰을 데이터베이스에 저장
 	user.token = token
@@ -91,7 +91,7 @@ userSchema.statics.findByToken = function (token, callback) {
 	let user = this
 
 	// 토큰을 decode하면 userid가 나옴
-	jwt.verify(token, "secretToken", function (err, decoded) {
+	jwt.verify(token, config.TOKEN, function (err, decoded) {
 		//나온 user id와 토큰을 같이 넣어서 검색
 		user.findOne({ _id: decoded, token: token }, function (err, user) {
 			if (err) return callback(err)
