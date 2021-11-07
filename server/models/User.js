@@ -24,7 +24,6 @@ const userSchema = mongoose.Schema({
 	},
 	role: {
 		type: Number,
-		default: 2,
 	},
 	image: String,
 	company: String,

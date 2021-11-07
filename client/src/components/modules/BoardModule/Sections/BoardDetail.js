@@ -11,6 +11,8 @@ import Loader from "../../../modules/Loader"
 import Moment from "react-moment"
 import styled from "styled-components"
 import "react-quill/dist/quill.snow.css"
+import { getComments } from "../../../../_actions/comment_action"
+import Comments from "../../CommentModule/Comments"
 
 const Container = styled.div`
 	width: 100%;
@@ -54,9 +56,11 @@ const ButtonContainer = styled.div`
 	margin-top: 10px;
 `
 const BoardDetail = () => {
-	const user = useSelector((state) => state.user.userData)
+	const user = useSelector((state) => state.auth.userData)
 	const [detailItem, setDetailItem] = useState({})
+	const [commentsList, setCommentsList] = useState([])
 	const [loading, setLoading] = useState(null)
+
 	const { id } = useParams()
 	const history = useHistory()
 	const dispatch = useDispatch()
@@ -71,11 +75,16 @@ const BoardDetail = () => {
 			setDetailItem(res.payload.result)
 		})
 		setLoading(false)
+		dispatch(getComments(id))
+			.then((res) => {
+				setCommentsList(res.payload.comments)
+			})
+			.catch((e) => console.log(e))
 	}, [dispatch, id])
 
 	const onDeleteBoardHandler = async () => {
 		await dispatch(deleteBoard(id))
-			.then((res) => {
+			.then(() => {
 				message.success("삭제 되었습니다.")
 				history.push(`/board?bindex=${query.bindex}`)
 			})
@@ -95,6 +104,23 @@ const BoardDetail = () => {
 			}
 		})
 	}
+
+	// 대댓글은 따로
+
+	const refreshCommentFunction = (method, value) => {
+		if (method === "create") {
+			setCommentsList(commentsList.concat(value))
+		} else if (method === "delete") {
+			setCommentsList(commentsList.filter((item) => item._id !== value))
+		} else if (method === "update") {
+			dispatch(getComments(id))
+				.then((res) => {
+					setCommentsList(res.payload.comments)
+				})
+				.catch((e) => console.log(e))
+		}
+	}
+
 	return (
 		<>
 			{loading ? (
@@ -155,6 +181,14 @@ const BoardDetail = () => {
 										{ReactHtmlParser(detailItem.description)}
 									</Description>
 								</div>
+								<hr style={{ opacity: "0.4" }} />
+								<br />
+								{/* Comment */}
+								<Comments
+									boardId={id}
+									commentsList={commentsList}
+									refreshCommentFunction={refreshCommentFunction}
+								/>
 							</Container>
 						</Col>
 					</Row>

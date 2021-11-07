@@ -3,7 +3,8 @@ import { Button, Form, Input, PageHeader, message, Row, Col } from "antd"
 import styled from "styled-components"
 import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { registerUser, emailNumber } from "../../../_actions/user_action"
+import { registerUser } from "../../../_actions/user_action"
+import { emailNumber } from "../../../_actions/auth_action"
 
 const Container = styled.div`
 	display: flex;
@@ -51,6 +52,8 @@ const RegisterPage = () => {
 				email,
 				company,
 				password,
+				role: 3,
+				// admin : 1, wait : 2, normal : 3
 			}
 			dispatch(registerUser(body)).then((res) => {
 				if (res.payload.err) {

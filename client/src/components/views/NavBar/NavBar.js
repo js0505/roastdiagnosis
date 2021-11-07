@@ -41,7 +41,7 @@ const SLayout = styled(Layout)`
 const NavBar = () => {
 	const history = useHistory()
 	const dispatch = useDispatch()
-	const user = useSelector((state) => state.user)
+	const user = useSelector((state) => state.auth)
 
 	const onLogoutHandler = () => {
 		dispatch(logoutUser()).then((res) => {

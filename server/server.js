@@ -1,7 +1,5 @@
-//백엔드 시작점
 const express = require("express")
 const app = express()
-// const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 const PORT = process.env.PORT || 5000
 
@@ -14,6 +12,7 @@ const scrapRoute = require("./routes/scrap")
 const uploadRoute = require("./routes/upload")
 const adminRoute = require("./routes/admin")
 const mainPageRoute = require("./routes/mainPage")
+const commentRoute = require("./routes/comment")
 
 // CORS
 const cors = require("cors")
@@ -44,13 +43,6 @@ mongoose
 	.catch((err) => console.log(err))
 //몽구스 연결 끝
 
-// static folder
-app.use("/api/uploads", express.static("uploads"))
-// app.use("/static/images", express.static("images"))
-
-app.get("/", (req, res) => res.send("Hello Express!!!"))
-app.get("/api/hello", (req, res) => res.send("test axios"))
-
 // Route
 app.use("/api/users", userRoute)
 app.use("/api/board", boardRoute)
@@ -58,5 +50,6 @@ app.use("/api/scrap", scrapRoute)
 app.use("/api/upload", uploadRoute)
 app.use("/api/admin", adminRoute)
 app.use("/api/main", mainPageRoute)
+app.use("/api/comment", commentRoute)
 
 app.listen(PORT, () => console.log(`app listening on port ${PORT}`))

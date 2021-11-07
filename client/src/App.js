@@ -45,7 +45,11 @@ const App = () => {
 				<Route exact path="/login" component={Auth(LoginPage, false)} />
 				<Route exact path="/register" component={Auth(RegisterPage, false)} />
 				<Route exact path="/userinfo" component={Auth(UserInfoPage, true)} />
-				<Route exact path="/changeuserinfo" component={UserUpdatePage} />
+				<Route
+					exact
+					path="/changeuserinfo"
+					component={Auth(UserUpdatePage, true)}
+				/>
 				<Route exact path="/search" component={Auth(SearchPage, null)} />
 				<Route exact path="/scrap/:id" component={Auth(ScrapPage, true)} />
 				<Route exact path="/board" component={Auth(BoardModule, null)} />

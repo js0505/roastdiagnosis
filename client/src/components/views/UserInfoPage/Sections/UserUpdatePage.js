@@ -8,11 +8,12 @@ import {
 	message,
 	PageHeader,
 } from "antd"
-import { useHistory } from "react-router"
-import React, { useCallback, useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useHistory, useLocation } from "react-router"
+import React, { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 import styled from "styled-components"
-import { auth, updateUser } from "../../../../_actions/user_action"
+import QueryString from "qs"
+import { getUserById, updateUser } from "../../../../_actions/user_action"
 import Loader from "../../../modules/Loader"
 const Container = styled.div`
 	display: flex;
@@ -40,40 +41,37 @@ const SButton = styled(Button)`
 	border-radius: 10px;
 `
 const UserUpdatePage = () => {
-	const history = useHistory()
-	const dispatch = useDispatch()
-	const userState = useSelector((state) => state.user)
-	const userinfo = userState.userData
-
 	const [name, setName] = useState("")
 	const [company, setCompany] = useState("")
 	const [password, setPassword] = useState("")
 	const [confirmPassword, setConfirmPassword] = useState("")
 	const [loading, setLoading] = useState(null)
 
-	const getUsers = useCallback(() => {
-		setLoading(true)
-		dispatch(auth()).then((res) => {
-			try {
-				setName(res.payload.name)
-				setCompany(res.payload.company)
-				setLoading(false)
-			} catch (e) {
-				console.log(e)
-			}
-		})
-	}, [dispatch])
-	console.log(name)
-	useEffect(() => {
-		getUsers()
-	}, [getUsers])
+	const history = useHistory()
+	const dispatch = useDispatch()
+	const location = useLocation()
+	const query = QueryString.parse(location.search, {
+		ignoreQueryPrefix: true,
+	})
 
-	const onSubmitHandler = () => {
+	useEffect(() => {
+		dispatch(getUserById(query.id))
+			.then((res) => {
+				setLoading(true)
+				setName(res.payload.result.name)
+				setCompany(res.payload.result.company)
+				setLoading(false)
+			})
+			.catch((e) => console.log(e))
+	}, [query.id, dispatch])
+
+	const onSubmitHandler = (e) => {
+		e.preventDefault()
 		if (password !== confirmPassword) {
 			return message.error("비밀번호가 일치하지 않습니다.")
 		} else {
 			let body = {
-				id: userinfo._id,
+				id: query.id,
 				name,
 				company,
 				password,
@@ -98,7 +96,6 @@ const UserUpdatePage = () => {
 					<PageHeader title={"프로필 수정"} />
 					<SForm layout="vertical" onFinish={onSubmitHandler}>
 						<Form.Item
-							name="name"
 							rules={[
 								{
 									required: true,
@@ -116,7 +113,6 @@ const UserUpdatePage = () => {
 						</Form.Item>
 
 						<Form.Item
-							name="company"
 							rules={[
 								{
 									required: true,
@@ -133,7 +129,6 @@ const UserUpdatePage = () => {
 						</Form.Item>
 
 						<Form.Item
-							name="password"
 							rules={[
 								{
 									required: true,
@@ -151,7 +146,6 @@ const UserUpdatePage = () => {
 						</Form.Item>
 
 						<Form.Item
-							name="confirmPassword"
 							rules={[
 								{
 									required: true,
@@ -175,7 +169,7 @@ const UserUpdatePage = () => {
 					</SForm>
 				</Container>
 
-				<SButton htmlType="submit">
+				<SButton htmlType="submit" onClick={onSubmitHandler}>
 					<Popconfirm title={"수정 하시겠습니까?"} onConfirm={onSubmitHandler}>
 						수정
 					</Popconfirm>

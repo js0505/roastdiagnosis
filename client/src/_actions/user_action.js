@@ -2,10 +2,9 @@ import axios from "axios"
 import {
 	LOGIN_USER,
 	REGISTER_USER,
-	AUTH_USER,
 	LOGOUT_USER,
 	UPDATE_USER_INFO,
-	GET_EMAIL_NUMBER,
+	GET_USER_BY_ID,
 } from "./types"
 
 let userAPI = ""
@@ -57,27 +56,14 @@ export function updateUser(body) {
 	}
 }
 
-export function emailNumber(email) {
-	const body = {
-		email,
-	}
-
+export function getUserById(id) {
 	const request = axios
-		.post(`${userAPI}/auth`, body)
-		.then((res) => res.data)
-		.catch((e) => console.log(e))
-	return {
-		type: GET_EMAIL_NUMBER,
-		payload: request,
-	}
-}
-
-export function auth() {
-	const request = axios
-		.get(`${userAPI}/auth`, { withCredentials: true })
+		.get(`${userAPI}?id=${id}`, {
+			withCredentials: true,
+		})
 		.then((res) => res.data)
 	return {
-		type: AUTH_USER,
+		type: GET_USER_BY_ID,
 		payload: request,
 	}
 }

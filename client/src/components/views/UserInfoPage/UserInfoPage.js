@@ -1,6 +1,6 @@
 import React from "react"
 import { useSelector } from "react-redux"
-import { Col, Row, List, Button, Descriptions, PageHeader } from "antd"
+import { Col, Row, Button, Descriptions, PageHeader } from "antd"
 import styled from "styled-components"
 
 const TopContainer = styled.div`
@@ -17,7 +17,7 @@ const SButton = styled(Button)`
 `
 
 const UserInfoPage = () => {
-	const userState = useSelector((state) => state.user)
+	const userState = useSelector((state) => state.auth)
 	const userinfo = userState.userData
 
 	return (
@@ -26,7 +26,7 @@ const UserInfoPage = () => {
 				<TopContainer>
 					<PageHeader title={"내 프로필"} />
 					<SButton>
-						<a href="/changeuserinfo">프로필 수정</a>
+						<a href={`/changeuserinfo?id=${userinfo?._id}`}>프로필 수정</a>
 					</SButton>
 				</TopContainer>
 

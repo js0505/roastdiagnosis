@@ -8,12 +8,13 @@ const {
 	logoutUser,
 	updateUserInfo,
 	emailCheck,
+	getUserById,
 } = require("../controllers/userController")
 
 /////////////////////////////
 // api/users/
 /////////////////////////////
-router.route("/").post(registerUser).put(auth, updateUserInfo)
+router.route("/").get(getUserById).post(registerUser).put(auth, updateUserInfo)
 
 router.route("/login").post(loginUser)
 

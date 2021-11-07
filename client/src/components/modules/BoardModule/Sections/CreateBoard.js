@@ -43,7 +43,7 @@ const CreateBoard = () => {
 	const [title, setTitle] = useState("")
 	const [description, setDescription] = useState("")
 	const [s3Key, setS3Key] = useState([])
-	const user = useSelector((state) => state.user)
+	const user = useSelector((state) => state.auth)
 	const history = useHistory()
 	const dispatch = useDispatch()
 	const location = useLocation()

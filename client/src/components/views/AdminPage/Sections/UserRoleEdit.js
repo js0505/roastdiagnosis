@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react"
 import Loader from "../../../modules/Loader"
 import { useDispatch } from "react-redux"
-import { Table, Button, message, PageHeader, Row, Col, Select } from "antd"
+import { Table, message, PageHeader, Row, Col, Select } from "antd"
 import { changeUserRole, getAllUsers } from "../../../../_actions/admin_action"
 import styled from "styled-components"
 import { useHistory } from "react-router"
 const { Option } = Select
 
-const SButton = styled(Button)`
-	margin-right: 20px;
-`
 const SPageHeader = styled(PageHeader)`
 	justify-content: center;
 `
@@ -70,12 +67,11 @@ const UserRoleEdit = () => {
 						key="role"
 						align="center"
 						filters={[
-							{ text: "관리자", value: 1 },
+							{ text: "관리자", value: 1 },
 							{ text: "가입대기", value: 2 },
 							{ text: "일반회원", value: 3 },
 						]}
 						onFilter={(value, record) => {
-							console.log(record)
 							return record.role === value
 						}}
 						render={(value, record) => {

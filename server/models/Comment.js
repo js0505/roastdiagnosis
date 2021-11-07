@@ -12,6 +12,10 @@ const commentSchema = mongoose.Schema(
 			type: Schema.Types.ObjectId,
 			ref: "Comment",
 		},
+		boardId: {
+			type: Schema.Types.ObjectId,
+			ref: "Board",
+		},
 		description: {
 			type: String,
 		},

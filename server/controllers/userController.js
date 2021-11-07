@@ -28,6 +28,13 @@ const updateUserInfo = (req, res) => {
 	})
 }
 
+const getUserById = (req, res) => {
+	User.findById(req.query.id, (err, result) => {
+		if (err) return res.status(400).json({ success: false, err })
+		return res.status(200).json({ success: true, result })
+	})
+}
+
 /////////////////////////////
 // '/login'
 /////////////////////////////
@@ -146,4 +153,5 @@ module.exports = {
 	logoutUser,
 	updateUserInfo,
 	emailCheck,
+	getUserById,
 }
