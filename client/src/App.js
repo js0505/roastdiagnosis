@@ -21,9 +21,8 @@ import UserRoleEdit from "./components/views/AdminPage/Sections/UserRoleEdit"
 
 const App = () => {
 	const history = createBrowserHistory()
-	const TRACKING_ID = "UA-210965448-1"
 
-	ReactGa.initialize(TRACKING_ID)
+	ReactGa.initialize("UA-210965448-1")
 	ReactGa.pageview(history.location.pathname + history.location.search)
 
 	return (

@@ -22,20 +22,39 @@ const Header = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+
+	@media ${(props) => props.theme.xs} {
+		flex-direction: column;
+	}
+`
+
+const TitleWriterContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
 `
 
 const Title = styled.div`
+	width: 100%;
 	margin-left: 10%;
 	font-size: 1.5rem;
 	margin-bottom: 10px;
+
+	@media ${(props) => props.theme.xs} {
+		margin-left: 0;
+		font-size: 1rem;
+	}
 `
 const Writer = styled.div`
-	/* margin-right: 5%; */
 	width: 100%;
 	margin-left: 10%;
 	opacity: 0.5;
 	display: flex;
 	flex-direction: row;
+
+	@media ${(props) => props.theme.xs} {
+		margin-left: 0;
+	}
 `
 
 const WriterSpan = styled.span`
@@ -131,13 +150,7 @@ const BoardDetail = () => {
 						<Col xs={22} md={22} lg={16} xl={16}>
 							<Container>
 								<Header>
-									<div
-										style={{
-											display: "flex",
-											justifyContent: "space-between",
-											flexDirection: "column",
-										}}
-									>
+									<TitleWriterContainer>
 										<Title>
 											<p>{detailItem.title}</p>
 										</Title>
@@ -152,7 +165,7 @@ const BoardDetail = () => {
 												</Moment>
 											</WriterSpan>
 										</Writer>
-									</div>
+									</TitleWriterContainer>
 									<ButtonContainer>
 										{detailItem.writer._id !== user?._id ? (
 											<>

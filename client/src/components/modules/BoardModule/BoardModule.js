@@ -13,6 +13,7 @@ import {
 	Row,
 	Col,
 } from "antd"
+import { SearchOutlined } from "@ant-design/icons"
 import Post from "../Post"
 import Loader from "../Loader"
 import { getBoardByBIndex } from "../../../_actions/board_action"
@@ -29,8 +30,18 @@ const SearchAndButton = styled.div`
 	display: flex;
 `
 
+const SForm = styled(Form)`
+	display: flex;
+	/* @media ${(props) => props.theme.xs} {
+		flex-direction: column;
+	} */
+`
+
 const SFormItem = styled(Form.Item)`
 	margin-right: 10px;
+	@media ${(props) => props.theme.xs} {
+		margin-right: 5px;
+	}
 `
 
 const SPagenation = styled(Pagination)`
@@ -77,7 +88,7 @@ const BoardModule = () => {
 	}
 	return (
 		<Row justify="center">
-			<Col xs={20} md={20} lg={15} xl={15}>
+			<Col xs={23} md={20} lg={15} xl={15}>
 				<Container>
 					<PageHeader
 						title={
@@ -91,7 +102,7 @@ const BoardModule = () => {
 					/>
 					<Post posts={currentPosts} loading={loading} bindex={query.bindex} />
 					<SearchAndButton>
-						<Form style={{ display: "flex" }}>
+						<SForm>
 							<SFormItem>
 								<Select defaultValue="title" onChange={(e) => setCategory(e)}>
 									<Option value="title">제목</Option>
@@ -108,11 +119,11 @@ const BoardModule = () => {
 							<SFormItem>
 								<Button>
 									<a href={`/search?category=${category}&keyword=${keyword}`}>
-										Search
+										<SearchOutlined />
 									</a>
 								</Button>
 							</SFormItem>
-						</Form>
+						</SForm>
 						<Button disabled={query.bindex === "1" && user?.isAdmin !== true}>
 							<a href={`/board/create?bindex=${query.bindex}`}>글쓰기</a>
 						</Button>

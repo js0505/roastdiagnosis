@@ -19,7 +19,10 @@ const SHeader = styled(Header)`
 	margin-bottom: 15px;
 	background-color: #f0f2f5;
 	/* 모바일 들어가면 패딩값 조절 */
-	/* padding: 0; */
+
+	@media ${(props) => props.theme.xs} {
+		padding: 0;
+	}
 `
 
 const SLayout = styled(Layout)`
@@ -57,7 +60,7 @@ const NavBar = () => {
 		<SLayout>
 			<SHeader>
 				<SMenu mode="horizontal">
-					<Menu.Item key="home">
+					<Menu.Item key="home" style={{ fontSize: "1rem" }}>
 						<a href="/">Roast Diagnosis</a>
 					</Menu.Item>
 					<Menu.Item key="board1">

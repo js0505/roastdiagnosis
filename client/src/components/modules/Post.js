@@ -13,15 +13,32 @@ const Container = styled.div`
 `
 
 const SList = styled(List)`
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 `
 
-const MetaTitle = styled.a`
-	font-size: 1.2rem;
+const SListItem = styled(List.Item)`
+	width: 100%;
 `
 
+const MetaTitle = styled.div`
+	font-size: 1.2rem;
+	@media ${(props) => props.theme.xs} {
+		font-size: 1rem;
+	}
+`
+const Writer = styled.div`
+	@media ${(props) => props.theme.xs} {
+		font-size: 0.8rem;
+	}
+`
 const SMoment = styled(Moment)`
 	color: rgba(0, 0, 0, 0.45);
+	font-size: 0.8rem;
+	@media ${(props) => props.theme.xs} {
+		font-size: 0.7rem;
+	}
 `
 
 const SDeleteOutlined = styled(DeleteOutlined)`
@@ -46,19 +63,24 @@ const Post = ({ posts, isScrap, refreshScrapFunction, loading, bindex }) => {
 		<Container>
 			<SList size="small" itemLayout="horizontal" dataSource={posts}>
 				{posts.map((post, index) => (
-					<List.Item key={index}>
+					<SListItem key={index}>
 						{!isScrap ? (
 							<List.Item.Meta
 								title={
-									<MetaTitle href={`/board/${post._id}?bindex=${bindex}`}>
-										{post.isFixed ? `고정글 - ${post.title}` : post.title}
+									<MetaTitle>
+										<a href={`/board/${post._id}?bindex=${bindex}`}>
+											{post.isFixed ? `고정글 - ${post.title}` : post.title}
+										</a>
 									</MetaTitle>
 								}
 								description={
-									<p>
-										{post.writer ? post.writer.name : "탈퇴한 회원"} (
-										{post.writer.company})
-									</p>
+									<>
+										<Writer>
+											{post.writer ? post.writer.name : "탈퇴한 회원"} (
+											{post.writer.company})
+										</Writer>
+										<SMoment format={"YYYY-MM-DD"}>{post.createdAt}</SMoment>
+									</>
 								}
 							/>
 						) : (
@@ -70,9 +92,7 @@ const Post = ({ posts, isScrap, refreshScrapFunction, loading, bindex }) => {
 								}
 							/>
 						)}
-						<div>
-							<SMoment format={"YY-MM-DD"}>{post.createdAt}</SMoment>
-						</div>
+
 						{isScrap && (
 							<>
 								<Popconfirm
@@ -83,7 +103,7 @@ const Post = ({ posts, isScrap, refreshScrapFunction, loading, bindex }) => {
 								</Popconfirm>
 							</>
 						)}
-					</List.Item>
+					</SListItem>
 				))}
 			</SList>
 		</Container>

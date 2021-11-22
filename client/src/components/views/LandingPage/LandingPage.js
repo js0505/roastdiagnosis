@@ -17,6 +17,14 @@ const ResentContainer = styled.div`
 const ResentTitle = styled(Typography.Text)`
 	overflow-x: hidden;
 `
+const ResentName = styled.div`
+	display: inline-block;
+	width: 10%;
+
+	@media ${(props) => props.theme.xs} {
+		width: 20%;
+	}
+`
 
 const LandingPage = ({ recentBoards }) => {
 	return (
@@ -44,18 +52,13 @@ const LandingPage = ({ recentBoards }) => {
 											<a href={`/board/${item._id}?bindex=${item.bindex}`}>
 												{item.title.length < 19
 													? item.title
-													: item.title.slice(0, 19) + " ..."}
+													: item.title.slice(0, 17) + " ..."}
 											</a>
 										</ResentTitle>
 									</div>
-									<div
-										style={{
-											display: "inline-block",
-											width: "10%",
-										}}
-									>
+									<ResentName>
 										<List.Item.Meta description={item.writer.name} />
-									</div>
+									</ResentName>
 								</SListItem>
 							)}
 						/>
